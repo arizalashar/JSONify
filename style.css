@@ -1,0 +1,128 @@
+/* style.css — Custom styles for JSONify
+   - Complements Tailwind utility classes for layout-specific and editor behaviors
+   - Keep styling minimal; Tailwind handles most layout/colors
+*/
+
+:root{
+  --bg-dark: #0F172A;
+  --panel-dark: #071025;
+  --muted: #94A3B8;
+  --text: #E2E8F0;
+  --accent: #FF6B35;
+}
+
+/* Global base */
+html,body{
+  height:100%;
+}
+body{
+  background:var(--bg-dark);
+  color:var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Buttons used in the top row */
+.btn{
+  @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium bg-[#FF6B35] text-[#0F172A] hover:opacity-95;
+}
+
+.btn-ghost{
+  @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium bg-transparent text-[#94A3B8] border border-transparent hover:bg-[#0B1220];
+}
+
+/* Editor column specifics */
+section .editor{
+  height: 420px; /* default height; JS may adjust for viewport */
+  padding: 8px 12px;
+  box-sizing: border-box;
+  white-space: pre;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+  font-size: 13px;
+  line-height: 1.6; /* ~6/4 leading used by line numbers */
+  border-radius: 4px;
+}
+
+/* Ensure the textarea stretches and hides native outline but keeps accessible focus ring via Tailwind utilities in markup */
+.editor:focus{
+  outline: none;
+}
+
+/* Container holding the line numbers and textarea */
+section > div{
+  display:flex;
+  align-items:flex-start;
+}
+
+#lineNumbers{
+  min-width: 40px;
+  padding-top: 8px;
+  padding-right: 8px;
+  color:var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Make the line numbers sticky to match textarea scroll — JS will sync scroll position */
+
+/* Output pane */
+#output{
+  min-height:420px;
+  max-height: calc(80vh);
+  overflow:auto;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+  font-size: 13px;
+}
+
+/* Status bar states */
+#statusBar{
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.status-valid{
+  background: linear-gradient(90deg, rgba(16,185,129,0.06), rgba(16,185,129,0.02));
+  border-left: 3px solid #10B981; /* green */
+}
+
+.status-error{
+  background: linear-gradient(90deg, rgba(255,107,53,0.04), rgba(255,107,53,0.01));
+  border-left: 3px solid var(--accent);
+}
+
+/* Highlight overlay for marking an error line beneath the textarea.
+   The JS will position a .highlight-line element absolutely to match the line's y offset.
+*/
+.editor-wrap{ position: relative; }
+.highlight-line{
+  position:absolute;
+  left:0;
+  right:0;
+  height: calc(1.6em + 4px); /* approx one text line (line-height * font-size) */
+  background: rgba(255,107,53,0.12);
+  pointer-events: none;
+  border-left: 3px solid rgba(255,107,53,0.18);
+  border-radius: 2px;
+}
+
+/* Small utilities */
+.kbd{
+  background: #0B1220;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px){
+  .editor{ height: 280px; }
+  #output{ min-height: 200px; }
+}
+
+/* Accessibility: focus-visible for interactive elements without Tailwind JS present */
+button:focus{ outline: 2px solid rgba(255,255,255,0.06); outline-offset: 2px; }
+
+/* Small print: ensure pre formatting keeps long content readable */
+#output{ word-break: break-word; }
