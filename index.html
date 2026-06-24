@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JSONify — Format. Validate. Done.</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Link to custom styles -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Meta theme color for dark background in supported browsers -->
+  <meta name="theme-color" content="#0F172A" />
+</head>
+<body class="min-h-screen bg-[#0F172A] text-[#E2E8F0] antialiased">
+  <!-- Top navbar -->
+  <header class="w-full border-b border-[#111827]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Logo / wordmark -->
+        <div class="w-10 h-10 rounded-md flex items-center justify-center bg-[#FF6B35] text-[#0F172A] font-bold">J</div>
+        <div>
+          <div class="text-lg font-semibold">JSONify</div>
+          <div class="text-xs text-[#CBD5E1]">Format. Validate. Done.</div>
+        </div>
+      </div>
+      <!-- Small credits / placeholder for future links -->
+      <div class="text-sm text-[#94A3B8] hidden sm:block">⚡ Fast, minimal JSON formatter & validator</div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Button row -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+      <div class="flex gap-2">
+        <button id="formatBtn" class="btn">Format (Ctrl+Enter)</button>
+        <button id="minifyBtn" class="btn">Minify</button>
+        <button id="copyBtn" class="btn">Copy</button>
+        <button id="clearBtn" class="btn btn-ghost">Clear</button>
+      </div>
+      <div class="text-sm text-[#94A3B8]">Paste JSON into the editor — it will auto-detect on paste.</div>
+    </div>
+
+    <!-- Split layout: left = editor, right = preview/output -->
+    <div class="flex flex-col lg:flex-row gap-4">
+      <!-- Editor column -->
+      <section class="flex-1 bg-[#0B1220] rounded-lg p-3 relative">
+        <div class="flex items-start gap-3 h-full">
+          <!-- Line numbers column -->
+          <div id="lineNumbers" class="select-none text-[#94A3B8] text-sm pr-2 text-right leading-6" aria-hidden="true">1</div>
+
+          <!-- Textarea editor -->
+          <!-- Using a native textarea for simplicity. app.js will keep lineNumbers in sync and perform highlighting. -->
+          <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+            class="editor flex-1 bg-transparent outline-none resize-none text-sm leading-6 text-[#E2E8F0]"
+            placeholder="Paste or type JSON here..."></textarea>
+        </div>
+      </section>
+
+      <!-- Preview column -->
+      <section class="w-full lg:w-1/2 bg-[#071025] rounded-lg p-3">
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-sm text-[#94A3B8]">Preview / Output</div>
+          <div id="outputActions" class="text-sm text-[#94A3B8]"></div>
+        </div>
+        <pre id="output" class="whitespace-pre-wrap text-sm leading-6 text-[#E2E8F0]">{}</pre>
+      </section>
+    </div>
+
+    <!-- Status bar -->
+    <div id="statusBar" class="mt-4 rounded-md px-3 py-2 text-sm bg-[#071025] flex items-center gap-2">
+      <span id="statusIcon">❗</span>
+      <span id="statusMessage">Paste JSON to validate and format.</span>
+    </div>
+
+    <!-- Small helper / hint area -->
+    <div class="mt-3 text-xs text-[#94A3B8]">
+      Tips: Use <kbd class="px-1 py-0.5 bg-[#111827] rounded">Ctrl</kbd> + <kbd class="px-1 py-0.5 bg-[#111827] rounded">Enter</kbd> to format. On paste the app will auto-format if valid.
+    </div>
+  </main>
+
+  <!-- App script -->
+  <script src="app.js" defer></script>
+</body>
+</html>
